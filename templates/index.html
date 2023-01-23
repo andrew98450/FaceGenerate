@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>AI Face Generate</title>
+    </head>
+    <body style="text-align: center;">
+        <h1>AI Face Generate</h1>
+        <form method="post">
+            <p>N: <input type="number" name="n" value="{{ n }}" required></p>
+            
+            <p>
+                Model Type: 
+                <select name="model" required>
+                    <option>WGAN</option>
+                    <option>WGAN-GP</option>
+                </select>
+            </p>
+            <p><input type="submit" value="Generate"></p>
+        </form>
+        <p><span>N={{ n }}</span></p>
+        <p><span>Model Type:{{ model }}</span></p>
+        {% if view_image %}
+            {% if model == "WGAN" %}
+                <p><img src="{{ url_for('static', filename='WGAN_image.jpg') }}"></p>
+            {% else %}
+                <p><img src="{{ url_for('static', filename='WGAN-GP_image.jpg') }}"></p>
+            {% endif %}
+        {% endif %}
+    </body>
+</html>
