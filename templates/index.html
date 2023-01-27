@@ -8,22 +8,19 @@
             <p>N: <input type="number" name="n" value="{{ n }}" required></p>
             
             <p>
-                Model Type: 
-                <select name="model" required>
-                    <option>WGAN</option>
-                    <option>WGAN-GP</option>
+                Gender: 
+                <select name="gender" required>
+                    <option>Female</option>
+                    <option>Male</option>
+                    <option>Random</option>
                 </select>
             </p>
             <p><input type="submit" value="Generate"></p>
         </form>
-        <p><span>N={{ n }}</span></p>
-        <p><span>Model Type:{{ model }}</span></p>
         {% if view_image %}
-            {% if model == "WGAN" %}
-                <p><img src="{{ url_for('static', filename='WGAN_image.jpg') }}"></p>
-            {% else %}
-                <p><img src="{{ url_for('static', filename='WGAN-GP_image.jpg') }}"></p>
-            {% endif %}
+            <p><span>N: {{ n }}</span></p>
+            <p><span>Gender: {{ gender }}</span></p>
+            <p><img src="{{ url_for('static', filename='wgangp_image.jpg') }}"></p>
         {% endif %}
     </body>
 </html>
