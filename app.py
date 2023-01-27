@@ -1,8 +1,10 @@
 import os
 import torch
+import base64
 import matplotlib.pyplot as plt
 from flask import *
 from wgan import *
+from io import BytesIO
 
 app = Flask(__name__)
 
@@ -13,7 +15,7 @@ def index():
         gender = str(request.form['gender'])
         if not os.path.exists("static"):
             os.mkdir("static")
-        image_path = f"static/wgangp_image.jpg"
+        buffer = BytesIO()
         generator_model = torch.load("Pretrained/wgangp_modelG.pth")
 
         if gender in "Female":
@@ -33,7 +35,7 @@ def index():
                 plt.imshow(image)
 
             plt.tight_layout()
-            plt.savefig(image_path)
+            plt.savefig(buffer)
 
         elif gender in "Male":
             batch_size = n ** 2
@@ -52,7 +54,7 @@ def index():
                 plt.imshow(image)
 
             plt.tight_layout()
-            plt.savefig(image_path)
+            plt.savefig(buffer)
 
         elif gender in "Random":
             batch_size = n ** 2
@@ -71,9 +73,12 @@ def index():
                 plt.imshow(image)
 
             plt.tight_layout()
-            plt.savefig(image_path)
-
-        return render_template("index.html", view_image=True, gender=gender, n=n)
+            plt.savefig(buffer)
+        
+        data = base64.b64encode(buffer.getvalue())
+        data = data.decode()
+        data = "data:image/png;base64," + data
+        return render_template("index.html", view_image=True, gender=gender, n=n, img=data)
     return render_template("index.html", view_image=False)
 
 @app.route("/image/<n>/<gender>")
@@ -82,7 +87,7 @@ def image(n, gender):
     gender = int(gender)
     if not os.path.exists("static"):
         os.mkdir("static")
-    image_path = f"static/wgangp_image.jpg"
+    buffer = BytesIO()
     generator_model = torch.load("Pretrained/wgangp_modelG.pth")
 
     if gender == 1:
@@ -102,7 +107,7 @@ def image(n, gender):
             plt.imshow(image)
 
         plt.tight_layout()
-        plt.savefig(image_path)
+        plt.savefig(buffer)
 
     elif gender == 2:
         batch_size = n ** 2
@@ -121,7 +126,7 @@ def image(n, gender):
             plt.imshow(image)
 
         plt.tight_layout()
-        plt.savefig(image_path)
+        plt.savefig(buffer)
 
     elif gender == 3:
         batch_size = n ** 2
@@ -140,8 +145,12 @@ def image(n, gender):
             plt.imshow(image)
 
         plt.tight_layout()
-        plt.savefig(image_path)
-    return render_template("image.html")
+        plt.savefig(buffer)
+        
+    data = base64.b64encode(buffer.getvalue())
+    data = data.decode()
+    data = "data:image/png;base64," + data
+    return render_template("image.html", img=data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
