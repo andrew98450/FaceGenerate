@@ -9,7 +9,7 @@ from io import BytesIO
 app = Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
-def index():
+async def index():
     if request.method == 'POST':
         n = int(request.form['n'])
         gender = str(request.form['gender'])
@@ -80,7 +80,7 @@ def index():
     return render_template("index.html", view_image=False)
 
 @app.route("/image/<n>/<gender>")
-def image(n, gender):
+async def image(n, gender):
     n = int(n)
     gender = int(gender)
     buffer = BytesIO()
