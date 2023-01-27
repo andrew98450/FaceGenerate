@@ -13,8 +13,6 @@ def index():
     if request.method == 'POST':
         n = int(request.form['n'])
         gender = str(request.form['gender'])
-        if not os.path.exists("static"):
-            os.mkdir("static")
         buffer = BytesIO()
         generator_model = torch.load("Pretrained/wgangp_modelG.pth")
 
@@ -85,8 +83,6 @@ def index():
 def image(n, gender):
     n = int(n)
     gender = int(gender)
-    if not os.path.exists("static"):
-        os.mkdir("static")
     buffer = BytesIO()
     generator_model = torch.load("Pretrained/wgangp_modelG.pth")
 
@@ -146,7 +142,7 @@ def image(n, gender):
 
         plt.tight_layout()
         plt.savefig(buffer)
-        
+
     data = base64.b64encode(buffer.getvalue())
     data = data.decode()
     data = "data:image/png;base64," + data
