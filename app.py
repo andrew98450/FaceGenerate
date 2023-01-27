@@ -22,7 +22,6 @@ async def index():
             labels = torch.randint(low=0, high=1, size=(batch_size,))
             outputs = generator_model(inputs, labels)
 
-            plt.figure()
             for i in range(1, batch_size + 1):
                 image = 0.5 + outputs[i - 1] * 0.5
                 image = image * 255.0
@@ -41,7 +40,6 @@ async def index():
             labels = torch.randint(low=1, high=2, size=(batch_size,))
             outputs = generator_model(inputs, labels)
 
-            plt.figure()
             for i in range(1, batch_size + 1):
                 image = 0.5 + outputs[i - 1] * 0.5
                 image = image * 255.0
@@ -60,7 +58,6 @@ async def index():
             labels = torch.randint(low=0, high=2, size=(batch_size,))
             outputs = generator_model(inputs, labels)
 
-            plt.figure()
             for i in range(1, batch_size + 1):
                 image = 0.5 + outputs[i - 1] * 0.5
                 image = image * 255.0
@@ -92,7 +89,6 @@ async def image(n, gender):
         labels = torch.randint(low=0, high=1, size=(batch_size,))
         outputs = generator_model(inputs, labels)
 
-        plt.figure()
         for i in range(1, batch_size + 1):
             image = 0.5 + outputs[i - 1] * 0.5
             image = image * 255.0
@@ -111,7 +107,6 @@ async def image(n, gender):
         labels = torch.randint(low=1, high=2, size=(batch_size,))
         outputs = generator_model(inputs, labels)
 
-        plt.figure()
         for i in range(1, batch_size + 1):
             image = 0.5 + outputs[i - 1] * 0.5
             image = image * 255.0
@@ -130,7 +125,6 @@ async def image(n, gender):
         labels = torch.randint(low=0, high=2, size=(batch_size,))
         outputs = generator_model(inputs, labels)
 
-        plt.figure()
         for i in range(1, batch_size + 1):
             image = 0.5 + outputs[i - 1] * 0.5
             image = image * 255.0
