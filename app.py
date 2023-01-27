@@ -9,13 +9,14 @@ from io import BytesIO
 app = Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])
-def index():
+async def index():
     if request.method == 'POST':
         n = int(request.form['n'])
         gender = str(request.form['gender'])
         buffer = BytesIO()
         generator_model = torch.load("Pretrained/wgangp_modelG.pth")
 
+        plt.figure()
         if gender in "Female":
             batch_size = n ** 2
             inputs = torch.randn(batch_size, 128)
@@ -77,12 +78,13 @@ def index():
     return render_template("index.html", view_image=False)
 
 @app.route("/image/<n>/<gender>")
-def image(n, gender):
+async def image(n, gender):
     n = int(n)
     gender = int(gender)
     buffer = BytesIO()
     generator_model = torch.load("Pretrained/wgangp_modelG.pth")
-
+    
+    plt.figure()
     if gender == 1:
         batch_size = n ** 2
         inputs = torch.randn(batch_size, 128)
@@ -143,4 +145,4 @@ def image(n, gender):
     return render_template("image.html", img=data)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), processes=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
