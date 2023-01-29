@@ -141,8 +141,7 @@ async def image(n, gender):
 
     data = base64.b64encode(buffer.getvalue())
     data = data.decode()
-    data = "data:image/png;base64," + data
-    return render_template("image.html", img=data)
+    return { "data": data }
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
